@@ -24,7 +24,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: './src/assets', to: 'public/assets' }, 
+                { from: './src/assets', to: 'public/assets' }
                 // {from: '_redirects'}
               ]
         })
