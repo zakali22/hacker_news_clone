@@ -1,26 +1,23 @@
 import React, {Component} from "react"
-import {fetchTopNews, fetchUserData, fetchUserPosts, fetchPostComments} from "../utils/api.js"
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+
+/** Implement Code splitting - TODO */
+import Home from "./Home/Home.js"
+import User from "./User/User.js"
+import Post from "./Post/Post.js"
+import New from "./New/New.js"
 
 class App extends Component {
-    state = {
-        posts: null
-    }
-
-    componentDidMount(){
-        fetchTopNews().then(res => {
-            fetchUserData(res[0].by).then(res => {
-                fetchUserPosts(res).then(res => {
-                    fetchPostComments(res[1]).then(res => {
-                        // console.log(res)
-                    })
-                })
-            })
-        })
-    }
-
     render(){
         return (
-            <div>{}</div>
+            <Router>
+                <Switch>
+                    <Route exact path={"/"} component={Home} />
+                    <Route path={"/user"} component={User} />
+                    <Route path={"/post"} component={Post} />
+                    <Route path={"/new"} component={New} />
+                </Switch>
+            </Router>
         )
     }
 }
