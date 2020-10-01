@@ -29,7 +29,6 @@ class Home extends Component {
 
     render() {
         const {posts} = this.state;
-        const {match} = this.props
         if(!posts) return <p>Loading</p>
         return (
             <div className="home">

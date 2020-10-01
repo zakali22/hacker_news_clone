@@ -30,8 +30,11 @@ export const fetchUserData = async (userId) => {
 }
 
 export const fetchUserPosts = async (userData) => {
-    const postIds = userData.submitted.slice(0,15);
-    const posts = await loopOverIds(postIds)
+    const postIds = userData.submitted.slice(0,30);
+    let posts = await loopOverIds(postIds)
+    posts = posts.filter(post => (
+        post.type === 'story'
+    ))
     return posts;
 }
 
