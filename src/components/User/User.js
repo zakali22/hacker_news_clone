@@ -33,7 +33,6 @@ class User extends Component {
 
         let date, parser, htmlDoc, aboutBio;
         if(this.state.user){
-            date = moment(this.state.user.created, 'X').format('L LT');
             parser = new DOMParser();
             htmlDoc = parser.parseFromString(this.state.user.about, 'text/html');
             aboutBio = htmlDoc.body.innerHTML.split('<p>').join('<p>').replace('<br>', '')
@@ -46,7 +45,7 @@ class User extends Component {
                         <React.Fragment>
                             <div className="user-page__content">
                                 <h2><strong>{this.state.user.id}</strong></h2>
-                                <p>joined {date} has {this.state.user.karma} karma</p>
+                                <p>joined {moment(this.state.user.created, 'X').format('L LT')} has {this.state.user.karma} karma</p>
                                 {aboutBio !== "undefined" ? <Markup content={aboutBio} /> : null}
                             </div>
                             <div className="user-page__posts">
@@ -56,7 +55,7 @@ class User extends Component {
                                         {this.state.userPosts.map(post => (
                                             <div key={post.id} className="post-listing__post">
                                                 <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                                <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> 9/30/2020, 9:08 PM  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
+                                                <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
                                             </div>
                                         ))}
                                     </React.Fragment>

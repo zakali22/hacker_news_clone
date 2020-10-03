@@ -24,6 +24,14 @@ export const fetchTopNews = async () => {
     return newsArr
 }
 
+export const fetchNewStories = async () => {
+    const res = await axios.get("https://hacker-news.firebaseio.com/v0/newstories.json")
+    const storiesArrIds = res.data.slice(0, 35)
+    const storiesArr = await loopOverIds(storiesArrIds);
+    return storiesArr
+}
+
+
 export const fetchUserData = async (userId) => {
     const res = await axios.get(`https://hacker-news.firebaseio.com/v0/user/${userId}.json`)
     return res.data

@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+import Nav from "./Nav/Nav"
 
 /** Implement Code splitting - TODO */
 import Home from "./Home/Home.js"
@@ -11,6 +12,7 @@ class App extends Component {
     render(){
         return (
             <Router>
+                <Nav />
                 <Switch>
                     <Route exact path={"/"} component={Home} />
                     <Route path={"/user"} component={User} />

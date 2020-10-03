@@ -16,7 +16,7 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props)
+        // console.log(this.props)
         fetchTopNews().then((res) => {
             console.log(res)
             this.setState({
@@ -38,7 +38,7 @@ class Home extends Component {
                             return (
                                 <div key={post.id} className="post-listing__post">
                                     <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                    <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> 9/30/2020, 9:08 PM  with {post.descendants} comments</p>
+                                    <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
                                 </div>
                             )
                         })}
