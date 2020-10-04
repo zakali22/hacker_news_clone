@@ -16,13 +16,21 @@
       "@babel/preset-react"
     ],
     "plugins": [
-      "syntax-dynamic-import"
+      "syntax-dynamic-import",
+      "@babel/plugin-proposal-class-properties",
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
     ]
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-react-jsx": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "babel-loader": "^8.1.0",
@@ -43,6 +51,8 @@
     "axios": "^0.19.2",
     "copy-webpack-plugin": "^6.1.0",
     "google-translate-api": "^2.3.0",
+    "interweave": "^12.5.0",
+    "moment": "^2.29.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.2",
     "react": "^16.13.1",
