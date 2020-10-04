@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {fetchTopNews} from "../../utils/api"
 import {Link} from "react-router-dom"
+import moment from "moment"
 
 class Home extends Component {
     state = {

@@ -9,13 +9,12 @@ const loopOverIds = async (arr) => {
     return newsArr
 }
 
-const fetchPostItem = async (id) => {
+/** Exported functions */
+
+export const fetchPostItem = async (id) => {
     const res = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
     return res.data
 }
-
-
-/** Exported functions */
 
 export const fetchTopNews = async () => {
     const res = await axios.get("https://hacker-news.firebaseio.com/v0/topstories.json")
@@ -49,5 +48,5 @@ export const fetchUserPosts = async (userData) => {
 export const fetchPostComments = async (post) => {
     if(!post.kids) return null
     const comments = await loopOverIds(post.kids.slice(0, 10))
-    console.log(comments)
+    return comments;
 }

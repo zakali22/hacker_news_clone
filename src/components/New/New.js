@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {fetchNewStories} from "../../utils/api"
 import {Link} from "react-router-dom"
+import moment from "moment"
 
 class Home extends Component {
     state = {
@@ -9,7 +10,7 @@ class Home extends Component {
 
     componentWillMount(){
         this.setState({
-            posts: JSON.parse(
+            new_stories: JSON.parse(
                 window.localStorage.getItem("new_stories")
               ) || null
         })
@@ -36,9 +37,9 @@ class Home extends Component {
                     <div className="post-listing">
                         {new_stories.map(new_story => {
                             return (
-                                <div key={post.id} className="post-listing__post">
-                                    <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                    <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
+                                <div key={new_story.id} className="post-listing__post">
+                                    {new_story.url ? (<a href={new_story.url} className="post-listing__post-title">{new_story.title}</a>) : (<Link to={`/post?id=${new_story.id}`}>{new_story.title}</Link>) }
+                                    <p>by <Link to={`/user?id=${new_story.by}`}>{new_story.by}</Link> {moment(new_story.time, 'X').format('L LT')}  with <Link to={`/post?id=${new_story.id}`}>{new_story.descendants}</Link> comments</p>
                                 </div>
                             )
                         })}

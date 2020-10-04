@@ -52,12 +52,14 @@ class User extends Component {
                                 {this.state.userPosts && this.state.user ? (
                                     <React.Fragment>
                                         <h3>Posts</h3>
-                                        {this.state.userPosts.map(post => (
-                                            <div key={post.id} className="post-listing__post">
-                                                <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                                <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
-                                            </div>
-                                        ))}
+                                        {this.state.userPosts.length ? (
+                                            this.state.userPosts.map(post => (
+                                                <div key={post.id} className="post-listing__post">
+                                                    <a href={post.url} className="post-listing__post-title">{post.title}</a>
+                                                    <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
+                                                </div>
+                                            ))
+                                        ) : (<p>This user hasn't posted yet</p>)}
                                     </React.Fragment>
                                 ) : (<p>Loading posts</p>)}
                             </div>
