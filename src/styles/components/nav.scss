@@ -1,6 +1,8 @@
 .nav {
     margin: 1.6rem 0 4rem 0;
     &__listing {
+        display: flex;
+        align-items: center;
         &-item {
             font-size: 1.8rem;
             font-weight: bold;
@@ -11,6 +13,12 @@
                 a {
                     color: $orange;
                 }
+            }
+            button {
+                background: none;
+                border: none;
+                font-size: 3rem;
+                cursor: pointer;
             }
             &:first-of-type {
                 margin-right: 1.5rem;
