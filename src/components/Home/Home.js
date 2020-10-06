@@ -37,9 +37,9 @@ class Home extends Component {
                     <div className="post-listing">
                         {posts.map(post => {
                             return (
-                                <div key={post.id} className="post-listing__post">
-                                    <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                    <p className="post-listing__post-description">by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
+                                <div key={post.id} className="post">
+                                    <a href={post.url} className="post__title">{post.title}</a>
+                                    <p className="post__description">by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
                                 </div>
                             )
                         })}
