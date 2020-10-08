@@ -1,0 +1,22 @@
+.post {
+    &__title {
+        color: $orange;
+        font-weight: 700;
+    }
+    &__description {
+        margin-top: .8rem;
+        margin-bottom: 0;
+        color: $lightGray;
+        a {
+            color: #000000;
+            text-decoration: underline;
+        }
+    }
+
+    // Post page 
+    &-page__content {
+        .post__title {
+            margin-bottom: 1rem;
+        }
+    }
+}

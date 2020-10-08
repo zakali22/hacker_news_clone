@@ -1,14 +1,14 @@
 import React from "react"
-import {Link} from "react-router-dom"
+import {Link, withRouter} from "react-router-dom"
 
-const Nav = () => {
+const Nav = (props) => {
     return (
-        <nav className="navbar">
+        <nav className="nav">
             <div className="container">
-                <ul>
-                    <li><Link to={'/'}>Top</Link></li>
-                    <li><Link to={'/new'}>New</Link></li>
-                    <li>
+                <ul className="nav__listing">
+                    <li className={`nav__listing-item ${props.location.pathname === '/' ? 'active' : ''}`} ><Link to={'/'}>Top</Link></li>
+                    <li className={`nav__listing-item ${props.location.pathname === '/new' ? 'active' : ''}`}><Link to={'/new'}>New</Link></li>
+                    <li className="nav__listing-item">
                         <button>🔦</button>
                     </li>
                 </ul>
@@ -17,4 +17,4 @@ const Nav = () => {
     )
 }
 
-export default Nav;
+export default withRouter(Nav);

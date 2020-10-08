@@ -5,6 +5,8 @@ import moment from "moment"
 import {Link} from "react-router-dom"
 import {Markup} from "interweave"
 
+import CommentsListing from "../../components/Comments/CommentsListing"
+
 class Post extends Component {
     constructor(props){
         super(props);
@@ -24,8 +26,9 @@ class Post extends Component {
             }, () => {
                 window.localStorage.setItem('post', JSON.stringify(this.state.post))
                 fetchPostComments(this.state.post).then(res => {
+                    console.log(res)
                     this.setState({
-                        comments: res.length ? res : []
+                        comments: res ? (res.length ? res : []) : []
                     })
                 })
             })
@@ -39,21 +42,14 @@ class Post extends Component {
             <div className="post-page">
                 <div className="container">
                     <div className="post-page__content">
-                        <a href={post.url}><h2><strong>{post.title}</strong></h2></a>
-                        <p>by <Link to={post.by}>{post.by}</Link> {moment(post.time, 'X').format('L LT')} has {post.descendant} karma</p>
+                        <a href={post.url}><h1 className="post__title"><strong>{post.title}</strong></h1></a>
+                        <p className="post__description">by <Link to={post.by}>{post.by}</Link> {moment(post.time, 'X').format('L LT')} has <span style={{color: '#000000'}}>{post.descendants}</span> karma</p>
                         <Markup content={post.text} />
                     </div>
                     <div className="post-page__post-listing post-listing">
                         {comments ? (
                             comments.length ? (
-                                this.state.comments.map(comment => {
-                                    return (
-                                        <div key={comment.id} className="comment-listing__post">
-                                            <p>by <Link to={`/user?id=${comment.by}`}>{comment.by}</Link> on {moment(post.time, 'X').format('L LT')}</p>
-                                            <Markup content={comment.text} />
-                                        </div>
-                                    )
-                                })
+                                <CommentsListing comments={comments} />
                             ) : (<p>This post has no comments</p>)
                         ) : (<p>Loading comments</p>)}
                     </div>

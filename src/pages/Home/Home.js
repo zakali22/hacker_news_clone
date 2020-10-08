@@ -3,6 +3,8 @@ import {fetchTopNews} from "../../utils/api"
 import {Link} from "react-router-dom"
 import moment from "moment"
 
+import PostsListing from "../../components/Posts/PostsListing"
+
 class Home extends Component {
     state = {
         posts: null
@@ -35,14 +37,7 @@ class Home extends Component {
             <div className="home">
                 <div className="container">
                     <div className="post-listing">
-                        {posts.map(post => {
-                            return (
-                                <div key={post.id} className="post-listing__post">
-                                    <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                    <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
-                                </div>
-                            )
-                        })}
+                        <PostsListing posts={posts}/>
                     </div>
                 </div>
             </div>

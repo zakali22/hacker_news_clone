@@ -4,6 +4,7 @@ import {fetchUserData, fetchUserPosts} from "../../utils/api"
 import moment from "moment"
 import {Markup} from "interweave"
 import {Link} from "react-router-dom"
+import PostsListing from '../../components/Posts/PostsListing'
 
 class User extends Component {
     state = {
@@ -44,21 +45,16 @@ class User extends Component {
                     {this.state.user ? (
                         <React.Fragment>
                             <div className="user-page__content">
-                                <h2><strong>{this.state.user.id}</strong></h2>
-                                <p>joined {moment(this.state.user.created, 'X').format('L LT')} has {this.state.user.karma} karma</p>
+                                <h1><strong>{this.state.user.id}</strong></h1>
+                                <p>joined <span className="meta-data">{moment(this.state.user.created, 'X').format('L LT')}</span> has <span className="meta-data">{this.state.user.karma}</span> karma</p>
                                 {aboutBio !== "undefined" ? <Markup content={aboutBio} /> : null}
                             </div>
-                            <div className="user-page__posts">
+                            <div className="user-page__posts post-listing">
                                 {this.state.userPosts && this.state.user ? (
                                     <React.Fragment>
                                         <h3>Posts</h3>
                                         {this.state.userPosts.length ? (
-                                            this.state.userPosts.map(post => (
-                                                <div key={post.id} className="post-listing__post">
-                                                    <a href={post.url} className="post-listing__post-title">{post.title}</a>
-                                                    <p>by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')}  with <Link to={`/post?id=${post.id}`}>{post.descendants}</Link> comments</p>
-                                                </div>
-                                            ))
+                                            <PostsListing posts={this.state.userPosts}/>
                                         ) : (<p>This user hasn't posted yet</p>)}
                                     </React.Fragment>
                                 ) : (<p>Loading posts</p>)}
