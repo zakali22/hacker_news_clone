@@ -55,9 +55,7 @@ class User extends Component {
                                 {this.state.userPosts && this.state.user ? (
                                     <React.Fragment>
                                         <h3>Posts</h3>
-                                        {this.state.userPosts.length ? (
-                                            <PostsListing posts={this.state.userPosts}/>
-                                        ) : (<p>This user hasn't posted yet</p>)}
+                                        <PostsListing posts={this.state.userPosts} />
                                     </React.Fragment>
                                 ) : (<Loading text='Loading posts'/>)}
                             </div>
