@@ -5,6 +5,8 @@ import moment from "moment"
 import {Link} from "react-router-dom"
 import {Markup} from "interweave"
 
+import CommentsListing from "../../components/Comments/CommentsListing"
+
 class Post extends Component {
     constructor(props){
         super(props);
@@ -47,14 +49,7 @@ class Post extends Component {
                     <div className="post-page__post-listing post-listing">
                         {comments ? (
                             comments.length ? (
-                                this.state.comments.map(comment => {
-                                    return (
-                                        <div key={comment.id} className="comment-listing__post">
-                                            <p className="post__description">by <Link to={`/user?id=${comment.by}`}>{comment.by}</Link> on {moment(post.time, 'X').format('L LT')}</p>
-                                            <Markup content={comment.text} />
-                                        </div>
-                                    )
-                                })
+                                <CommentsListing comments={comments} />
                             ) : (<p>This post has no comments</p>)
                         ) : (<p>Loading comments</p>)}
                     </div>

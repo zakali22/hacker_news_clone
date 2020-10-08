@@ -40,7 +40,7 @@ export const fetchUserPosts = async (userData) => {
     const postIds = userData.submitted.slice(0,30);
     let posts = await loopOverIds(postIds)
     posts = posts.filter(post => (
-        post.type === 'story'
+        post.type === 'story' && !post.deleted
     ))
     return posts;
 }
