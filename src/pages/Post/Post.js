@@ -43,7 +43,7 @@ class Post extends Component {
                 <div className="container">
                     <div className="post-page__content">
                         <a href={post.url}><h1 className="post__title"><strong>{post.title}</strong></h1></a>
-                        <p className="post__description">by <Link to={post.by}>{post.by}</Link> {moment(post.time, 'X').format('L LT')} has <span style={{color: '#000000'}}>{post.descendants}</span> karma</p>
+                        <p className="post__description">by <Link to={`/user?id=${post.by}`}>{post.by}</Link> {moment(post.time, 'X').format('L LT')} has <span style={{color: '#000000'}}>{post.descendants}</span> karma</p>
                         <Markup content={post.text} />
                     </div>
                     <div className="post-page__post-listing post-listing">
