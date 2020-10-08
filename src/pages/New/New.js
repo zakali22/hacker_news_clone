@@ -3,6 +3,8 @@ import {fetchNewStories} from "../../utils/api"
 import {Link} from "react-router-dom"
 import moment from "moment"
 
+import Loading from "../../components/Loading/Loading"
+
 class Home extends Component {
     state = {
         new_stories: null
@@ -30,7 +32,7 @@ class Home extends Component {
 
     render() {
         const {new_stories} = this.state;
-        if(!new_stories) return <p>Loading</p>
+        if(!new_stories) return <Loading text='Loading'/>
         return (
             <div className="home">
                 <div className="container">

@@ -4,6 +4,7 @@ import {Link} from "react-router-dom"
 import moment from "moment"
 
 import PostsListing from "../../components/Posts/PostsListing"
+import Loading from "../../components/Loading/Loading"
 
 class Home extends Component {
     state = {
@@ -32,7 +33,7 @@ class Home extends Component {
 
     render() {
         const {posts} = this.state;
-        if(!posts) return <p>Loading</p>
+        if(!posts) return <Loading text='Loading'/>
         return (
             <div className="home">
                 <div className="container">
