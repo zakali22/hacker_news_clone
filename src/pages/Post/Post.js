@@ -6,6 +6,7 @@ import {Link} from "react-router-dom"
 import {Markup} from "interweave"
 
 import CommentsListing from "../../components/Comments/CommentsListing"
+import Loading from "../../components/Loading/Loading"
 
 class Post extends Component {
     constructor(props){
@@ -37,7 +38,7 @@ class Post extends Component {
 
     render() {
         const {post, comments} = this.state;
-        if(!post) return <p>Loading post</p>
+        if(!post) return <Loading text='Loading posts'/>
         return (
             <div className="post-page">
                 <div className="container">
@@ -51,7 +52,7 @@ class Post extends Component {
                             comments.length ? (
                                 <CommentsListing comments={comments} />
                             ) : (<p>This post has no comments</p>)
-                        ) : (<p>Loading comments</p>)}
+                        ) : <Loading text='Loading comments'/> }
                     </div>
                 </div>
             </div>

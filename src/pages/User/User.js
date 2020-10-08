@@ -4,7 +4,9 @@ import {fetchUserData, fetchUserPosts} from "../../utils/api"
 import moment from "moment"
 import {Markup} from "interweave"
 import {Link} from "react-router-dom"
+
 import PostsListing from '../../components/Posts/PostsListing'
+import Loading from "../../components/Loading/Loading"
 
 class User extends Component {
     state = {
@@ -57,10 +59,10 @@ class User extends Component {
                                             <PostsListing posts={this.state.userPosts}/>
                                         ) : (<p>This user hasn't posted yet</p>)}
                                     </React.Fragment>
-                                ) : (<p>Loading posts</p>)}
+                                ) : (<Loading text='Loading posts'/>)}
                             </div>
                         </React.Fragment>
-                    ) : <p>Loading user</p>}
+                    ) : <Loading text='Loading user'/>}
                 </div>
             </div>
         )
