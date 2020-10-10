@@ -13,6 +13,10 @@ body {
     font-size: 1.6rem;
     padding: 5rem 0;
     color: #2d2d2d;
+    &.dark-theme {
+        background: $darkGray;
+        color: $lightGray;
+    }
 }
 
 h1, .h1 {
@@ -69,4 +73,7 @@ ul {
 
 .loading-text {
     text-align: center;
+    &.dark-theme {
+        color: $lighterGray;
+    }
 }

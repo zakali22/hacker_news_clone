@@ -28,4 +28,18 @@
             }
         }
     }
+    &.dark-theme {
+        .nav__listing {
+            &-item {
+                a {
+                    color: $lighterGray;
+                }
+                &.active {
+                    a {
+                        color: $orange;
+                    }
+                }
+            }
+        }
+    }
 }

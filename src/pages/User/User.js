@@ -7,6 +7,7 @@ import {Link} from "react-router-dom"
 
 import PostsListing from '../../components/Posts/PostsListing'
 import Loading from "../../components/Loading/Loading"
+import {ThemeConsumer} from "../../context/Theme"
 
 class User extends Component {
     state = {
@@ -42,27 +43,31 @@ class User extends Component {
         }
 
         return (
-            <div className="user-page">
-                <div className="container">
-                    {this.state.user ? (
-                        <React.Fragment>
-                            <div className="user-page__content">
-                                <h1><strong>{this.state.user.id}</strong></h1>
-                                <p>joined <span className="meta-data">{moment(this.state.user.created, 'X').format('L LT')}</span> has <span className="meta-data">{this.state.user.karma}</span> karma</p>
-                                {aboutBio !== "undefined" ? <Markup content={aboutBio} /> : null}
-                            </div>
-                            <div className="user-page__posts post-listing">
-                                {this.state.userPosts && this.state.user ? (
-                                    <React.Fragment>
-                                        <h3>Posts</h3>
-                                        <PostsListing posts={this.state.userPosts} />
-                                    </React.Fragment>
-                                ) : (<Loading text='Loading posts'/>)}
-                            </div>
-                        </React.Fragment>
-                    ) : <Loading text='Loading user'/>}
-                </div>
-            </div>
+            <ThemeConsumer>
+                {(value) => (
+                    <div className={`user-page ${value.theme === 'dark' ? 'dark-theme' : ''}`}>
+                        <div className="container">
+                            {this.state.user ? (
+                                <React.Fragment>
+                                    <div className="user-page__content">
+                                        <h1><strong>{this.state.user.id}</strong></h1>
+                                        <p>joined <span className="meta-data">{moment(this.state.user.created, 'X').format('L LT')}</span> has <span className="meta-data">{this.state.user.karma}</span> karma</p>
+                                        {aboutBio !== "undefined" ? <Markup content={aboutBio} /> : null}
+                                    </div>
+                                    <div className="user-page__posts post-listing">
+                                        {this.state.userPosts && this.state.user ? (
+                                            <React.Fragment>
+                                                <h3>Posts</h3>
+                                                <PostsListing posts={this.state.userPosts} />
+                                            </React.Fragment>
+                                        ) : (<Loading text='Loading posts'/>)}
+                                    </div>
+                                </React.Fragment>
+                            ) : <Loading text='Loading user'/>}
+                        </div>
+                    </div>
+                )}
+            </ThemeConsumer>
         )
     }
 }
