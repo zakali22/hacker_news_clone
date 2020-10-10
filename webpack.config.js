@@ -1,6 +1,7 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -10,6 +11,9 @@ module.exports = {
         publicPath: '/'
     },
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+    optimization: {
+        minimizer: [new TerserPlugin()],
+    },
     module: {
         rules: [
             {test: /\.(js)$/, use: 'babel-loader'},
