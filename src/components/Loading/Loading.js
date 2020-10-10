@@ -21,7 +21,7 @@ class Loading extends React.Component {
                         text: this.props.text
                     })
                 }
-            }, 600)
+            }, 300)
         })
 
     }

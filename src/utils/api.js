@@ -26,7 +26,10 @@ export const fetchTopNews = async () => {
 export const fetchNewStories = async () => {
     const res = await axios.get("https://hacker-news.firebaseio.com/v0/newstories.json")
     const storiesArrIds = res.data.slice(0, 35)
-    const storiesArr = await loopOverIds(storiesArrIds);
+    let storiesArr = await loopOverIds(storiesArrIds);
+    storiesArr = storiesArr.filter(story => {
+        if(story) return story
+    })
     return storiesArr
 }
 
