@@ -1,5 +1,6 @@
 import React from "react"
 import {ThemeConsumer} from "../../context/Theme"
+import PropTypes from "prop-types"
 
 class Loading extends React.Component {
     state = {
@@ -10,7 +11,7 @@ class Loading extends React.Component {
         this.setState({
             text: this.props.text
         }, () => {
-            window.setInterval(() => {
+            this.textTimer = window.setInterval(() => {
                 const endText = this.props.text + '...'
                 if(this.state.text !== endText){
                     this.setState((state) => ({
@@ -26,6 +27,10 @@ class Loading extends React.Component {
 
     }
 
+    componentWillUnmount(){
+        window.clearInterval(this.textTimer)
+    }
+
     render(){
         return (
             <ThemeConsumer>
@@ -37,6 +42,14 @@ class Loading extends React.Component {
             </ThemeConsumer>
         )
     }
+}
+
+Loading.propTypes = {
+    text: PropTypes.string.isRequired
+}
+
+Loading.defaultProps = {
+    text: 'Loading'
 }
 
 export default Loading
