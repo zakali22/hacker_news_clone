@@ -1,7 +1,7 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -11,6 +11,9 @@ module.exports = {
         publicPath: '/'
     },
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+    optimization: {
+        minimizer: [new TerserPlugin()],
+    },
     module: {
         rules: [
             {test: /\.(js)$/, use: 'babel-loader'},
@@ -28,8 +31,7 @@ module.exports = {
                 { from: './src/assets', to: 'public/assets' },
                 {from: '_redirects'}
               ]
-        }),
-        new CleanWebpackPlugin(),
+        })
     ],
     devServer: {
         historyApiFallback: true
