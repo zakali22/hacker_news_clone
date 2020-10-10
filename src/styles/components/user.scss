@@ -1,0 +1,15 @@
+.user-page {
+    &.dark-theme {
+        .user-page__content {
+            h1 {
+                color: $lighterGray;
+            }
+        }
+        .user-page__posts {
+            h3 {
+                color: $lighterGray;
+            }
+        }
+    }
+
+}

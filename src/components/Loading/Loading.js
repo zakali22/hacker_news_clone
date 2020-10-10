@@ -1,4 +1,5 @@
 import React from "react"
+import {ThemeConsumer} from "../../context/Theme"
 
 class Loading extends React.Component {
     state = {
@@ -27,9 +28,13 @@ class Loading extends React.Component {
 
     render(){
         return (
-            <div className="container">
-                <p className="h1 loading-text">{this.state.text}</p>
-            </div>
+            <ThemeConsumer>
+                {(value) => (
+                    <div className="container">
+                        <p className={`h1 loading-text ${value.theme === 'dark' ? 'dark-theme' : ''}`}>{this.state.text}</p>
+                    </div>
+                )}
+            </ThemeConsumer>
         )
     }
 }

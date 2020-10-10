@@ -20,3 +20,26 @@
         }
     }
 }
+
+/** Dark theme **/
+.dark-theme {
+    .post__title {
+        color: $lighterGray;
+    }
+    .post__description {
+        margin-top: .8rem;
+        margin-bottom: 0;
+        color: $lightGray;
+        a {
+            color: $lighterGray;
+        }
+        span {
+            color: $lighterGray !important;
+        }
+    }
+    &.post-page {
+        .post__title {
+            color: $lighterGray;
+        }
+    }
+}
