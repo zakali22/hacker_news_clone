@@ -3,42 +3,35 @@ import queryString from "query-string"
 import {fetchUserData, fetchUserPosts} from "../../utils/api"
 import moment from "moment"
 import {Markup} from "interweave"
-import {Link} from "react-router-dom"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {fetchUser, fetchPostsUser, resetUser} from "../../actions/userActions"
 
 import PostsListing from '../../components/Posts/PostsListing'
 import Loading from "../../components/Loading/Loading"
 import {ThemeConsumer} from "../../context/Theme"
 
 class User extends Component {
-    state = {
-        user: null,
-        userPosts: null
-    }
 
     componentDidMount(){
         const value = this.props.location.search;
         const {id} = queryString.parse(value)
         
-        fetchUserData(id).then(res => {
-            this.setState({
-                user: res
-            }, () => {
-                fetchUserPosts(this.state.user).then(res => {
-                    console.log(res)
-                    this.setState({
-                        userPosts: res
-                    })
-                })
-            })
-        })
+        this.props.fetchUser(id)
+        
+    }
+
+    componentWillUnmount(){
+        this.props.resetUser();
     }
 
     render() {
 
         let date, parser, htmlDoc, aboutBio;
-        if(this.state.user){
+        const {users_data} = this.props;
+        if(users_data.user){
             parser = new DOMParser();
-            htmlDoc = parser.parseFromString(this.state.user.about, 'text/html');
+            htmlDoc = parser.parseFromString(users_data.user.about, 'text/html');
             aboutBio = htmlDoc.body.innerHTML.split('<p>').join('<p>').replace('<br>', '')
         }
 
@@ -47,18 +40,18 @@ class User extends Component {
                 {(value) => (
                     <div className={`user-page ${value.theme === 'dark' ? 'dark-theme' : ''}`}>
                         <div className="container">
-                            {this.state.user ? (
+                            {users_data.user ? (
                                 <React.Fragment>
                                     <div className="user-page__content">
-                                        <h1><strong>{this.state.user.id}</strong></h1>
-                                        <p>joined <span className="meta-data">{moment(this.state.user.created, 'X').format('L LT')}</span> has <span className="meta-data">{this.state.user.karma}</span> karma</p>
+                                        <h1><strong>{users_data.user.id}</strong></h1>
+                                        <p>joined <span className="meta-data">{moment(users_data.user.created, 'X').format('L LT')}</span> has <span className="meta-data">{users_data.user.karma}</span> karma</p>
                                         {aboutBio !== "undefined" ? <Markup content={aboutBio} /> : null}
                                     </div>
                                     <div className="user-page__posts post-listing">
-                                        {this.state.userPosts && this.state.user ? (
+                                        {users_data.user_posts && users_data.user ? (
                                             <React.Fragment>
                                                 <h3>Posts</h3>
-                                                <PostsListing posts={this.state.userPosts} />
+                                                <PostsListing posts={users_data.user_posts} />
                                             </React.Fragment>
                                         ) : (<Loading text='Loading posts'/>)}
                                     </div>
@@ -72,5 +65,15 @@ class User extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    users_data: state.users_data
+})
 
-export default User
+const mapDispatchToProps = dispatch => bindActionCreators({
+    fetchPostsUser,
+    fetchUser,
+    resetUser
+}, dispatch)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(User)

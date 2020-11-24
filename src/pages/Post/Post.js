@@ -4,42 +4,30 @@ import queryString from "query-string"
 import moment from "moment"
 import {Link} from "react-router-dom"
 import {Markup} from "interweave"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {fetchPost, fetchCommentsPost, resetPosts} from "../../actions/postsActions"
 
 import CommentsListing from "../../components/Comments/CommentsListing"
 import Loading from "../../components/Loading/Loading"
 import {ThemeConsumer} from "../../context/Theme"
 
 class Post extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            post: JSON.parse(window.localStorage.getItem('post')) || null
-        }
-    }
-
 
     componentDidMount(){
         const value = this.props.location.search;
         const {id} = queryString.parse(value)
-        fetchPostItem(id).then(res => {
-            console.log(res)
-            this.setState({
-                post: res
-            }, () => {
-                window.localStorage.setItem('post', JSON.stringify(this.state.post))
-                fetchPostComments(this.state.post).then(res => {
-                    console.log(res)
-                    this.setState({
-                        comments: res ? (res.length ? res : []) : []
-                    })
-                })
-            })
-        })
+
+        this.props.fetchPost(id)
+    }
+
+    componentWillUnmount(){
+        this.props.resetPosts();
     }
 
     render() {
-        const {post, comments} = this.state;
-        if(!post) return <Loading text='Loading posts'/>
+        const {posts_data: {post, post_loaded}} = this.props;
+        if(!post_loaded) return <Loading text='Loading posts'/>
         return (
             <ThemeConsumer>
                 {(value) => (
@@ -51,9 +39,9 @@ class Post extends Component {
                                 <Markup content={post.text} />
                             </div>
                             <div className="post-page__post-listing post-listing">
-                                {comments ? (
-                                    comments.length ? (
-                                        <CommentsListing comments={comments} />
+                                {post.comments ? (
+                                    post.comments.length ? (
+                                        <CommentsListing comments={post.comments} />
                                     ) : (<p>This post has no comments</p>)
                                 ) : <Loading text='Loading comments'/> }
                             </div>
@@ -66,4 +54,14 @@ class Post extends Component {
 }
 
 
-export default Post
+const mapStateToProps = (state) => ({
+    posts_data: state.posts_data
+})
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    fetchPost,
+    fetchCommentsPost,
+    resetPosts
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post)

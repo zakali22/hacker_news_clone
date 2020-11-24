@@ -1,44 +1,32 @@
 import React, { Component } from 'react'
-import {fetchTopNews} from "../../utils/api"
-import {Link} from "react-router-dom"
-import moment from "moment"
+import {connect} from "react-redux"
+import {fetchPosts} from "../../actions/postsActions"
+import {bindActionCreators} from "redux"
 
 import PostsListing from "../../components/Posts/PostsListing"
 import Loading from "../../components/Loading/Loading"
 
 class Home extends Component {
-    state = {
-        posts: null
-    }
-
-    componentWillMount(){
-        this.setState({
-            posts: JSON.parse(
-                window.localStorage.getItem("posts")
-              ) || null
-        })
-    }
 
     componentDidMount(){
-        // console.log(this.props)
-        fetchTopNews().then((res) => {
-            console.log(res)
-            this.setState({
-                posts: res
-            }, () => {
-                window.localStorage.setItem("posts", JSON.stringify(this.state.posts));
-            })
-        })
+        
+        const {posts_data, fetchPosts} = this.props;
+        if(!posts_data.posts_loaded){
+            fetchPosts();
+        }
     }
 
     render() {
-        const {posts} = this.state;
-        if(!posts) return <Loading text='Loading'/>
+        console.log(this.props)
+        const {posts_data} = this.props;
+        if(!posts_data.posts_loaded){
+            return <Loading text='Loading'/>
+        }
         return (
             <div className="home">
                 <div className="container">
                     <div className="post-listing">
-                        <PostsListing posts={posts}/>
+                        <PostsListing posts={posts_data.posts}/>
                     </div>
                 </div>
             </div>
@@ -46,5 +34,12 @@ class Home extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    posts_data: state.posts_data
+})
 
-export default Home
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    fetchPosts
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

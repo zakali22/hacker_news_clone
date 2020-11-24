@@ -40,6 +40,7 @@ export const fetchUserData = async (userId) => {
 }
 
 export const fetchUserPosts = async (userData) => {
+    console.log(userData)
     const postIds = userData.submitted.slice(0,30);
     let posts = await loopOverIds(postIds)
     posts = posts.filter(post => (
@@ -49,7 +50,7 @@ export const fetchUserPosts = async (userData) => {
 }
 
 export const fetchPostComments = async (post) => {
-    if(!post.kids) return null
+    if(!post.kids) return []
     const comments = await loopOverIds(post.kids.slice(0, 10))
     return comments;
 }
