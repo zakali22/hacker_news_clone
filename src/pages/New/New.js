@@ -1,43 +1,33 @@
 import React, { Component } from 'react'
-import {fetchNewStories} from "../../utils/api"
 import {Link} from "react-router-dom"
 import moment from "moment"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {fetchNews, resetNews} from "../../actions/newsActions"
 
 import Loading from "../../components/Loading/Loading"
 
-class Home extends Component {
-    state = {
-        new_stories: null
-    }
-
-    componentWillMount(){
-        this.setState({
-            new_stories: JSON.parse(
-                window.localStorage.getItem("new_stories")
-              ) || null
-        })
-    }
+class New extends Component {
 
     componentDidMount(){
-        console.log(this.props)
-        fetchNewStories().then((res) => {
-            console.log(res)
-            this.setState({
-                new_stories: res
-            }, () => {
-                window.localStorage.setItem("new_stories", JSON.stringify(this.state.new_stories));
-            })
-        })
+        const {news_data: {news_stories_loaded}, fetchNews} = this.props;
+        if(!news_stories_loaded){
+            fetchNews();
+        }
+    }
+
+    componentWillUnmount(){
+        this.props.resetNews();
     }
 
     render() {
-        const {new_stories} = this.state;
-        if(!new_stories) return <Loading text='Loading'/>
+        const {news_data: {news_stories_loaded, news_stories}} = this.props;
+        if(!news_stories_loaded) return <Loading text='Loading'/>
         return (
             <div className="home">
                 <div className="container">
                     <div className="post-listing">
-                        {new_stories.map(new_story => {
+                        {news_stories.map(new_story => {
                             return (
                                 <div key={new_story.id} className="post">
                                     {new_story.url ? (<a href={new_story.url} className="post__title">{new_story.title}</a>) : (<Link className="post__title" to={`/post?id=${new_story.id}`}>{new_story.title}</Link>) }
@@ -52,5 +42,14 @@ class Home extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    news_data: state.news_data
+})
 
-export default Home
+const mapDispatchToProps = dispatch => bindActionCreators({
+   fetchNews,
+   resetNews
+}, dispatch)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(New)
